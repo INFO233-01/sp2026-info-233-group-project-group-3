@@ -75,7 +75,7 @@ INGREDIENTS = {
 #Display Function
 
 def display_options(category, items): #Displays numbered options for a given ingredient category.
-    print(f"\n--- {category} Options ---")
+    print(f"\n{category} Options")
     for i, item in enumerate(items, start=1):
         print(f"  {i}. {item}")
     print("  Type the NUMBER to select, or 'skip' to skip this category.")
@@ -161,3 +161,6 @@ def get_sandwich_ingredients(): #Walks the user through building their sandwich 
 
     print("\nIngredient selection complete!\n")
     return selected_ingredients
+
+if __name__ == "__main__":
+    get_sandwich_ingredients()
