@@ -151,6 +151,7 @@ def get_extras(category, items): #For categories like Vegetables/Condiments, thi
 def get_sandwich_ingredients(): #Walks the user through building their sandwich step by step.
    
     print("       Welcome to the Sandwich Maker!   ")
+    print("- Here you are allowed to create the sandwich of your dreams! Simply choose anything you'd like in your sandwich; from the bread, protein, cheese, vegetables, and even the condiments! continue through each section, and at the very end we will give you a summary of the macros inside your sandwich. Have fun!")
 
     selected_ingredients = []
 
