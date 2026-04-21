@@ -1,0 +1,79 @@
+token = get_token() 
+# Get Food Details Function returns all nutrition data
+def get_food_details(food_id, token):
+    url = "https://platform.fatsecret.com/rest/server.api"
+    headers = {"Authorization": f"Bearer {token}"}
+    params = {
+        "method": "food.get",
+        "food_id": food_id,
+        "format": "json"
+    }
+
+    response = requests.get(url, headers=headers, params=params)
+    return response.json()
+# Extract Macros Function
+def extract_macros(food_data):
+    try:
+        servings = food_data["food"]["servings"]["serving"]
+
+        # Sometimes it's a list, sometimes a single object
+        if isinstance(servings, list):
+            serving = servings[0]
+        else:
+            serving = servings
+
+        return {
+            "calories": float(serving.get("calories", 0)),
+            "protein": float(serving.get("protein", 0)),
+            "carbs": float(serving.get("carbohydrate", 0)),
+            "fat": float(serving.get("fat", 0))
+        }
+    except Exception as e:
+        print("Error extracting macros:", e)
+        return None
+# Get Macros for One Food
+def get_macros_for_food(food_name, token):
+    search_results = search_food(food_name, token)
+
+    try:
+        foods = search_results["foods"]["food"]
+
+        # Handle single vs list result
+        if isinstance(foods, list):
+            food = foods[0]
+        else:
+            food = foods
+
+        food_id = food["food_id"]
+
+        food_details = get_food_details(food_id, token)
+        return extract_macros(food_details)
+
+    except Exception as e:
+        print(f"Could not find macros for {food_name}: {e}")
+        return None
+def calculate_total_macros(ingredients, token):
+    total = {
+        "calories": 0,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 0
+    }
+
+    for item in ingredients:
+        name = item["name"]
+        print(f"\nGetting macros for {name}...")
+
+        macros = get_macros_for_food(name, token)
+
+        if macros:
+            print(f"  {name}: {macros}")
+
+            total["calories"] += macros["calories"]
+            total["protein"] += macros["protein"]
+            total["carbs"] += macros["carbs"]
+            total["fat"] += macros["fat"]
+        else:
+            print(f"  Skipping {name}")
+
+    return total
