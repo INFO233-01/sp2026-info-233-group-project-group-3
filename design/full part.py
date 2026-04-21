@@ -367,10 +367,10 @@ def print_final_summary(results):
         print("\nNo ingredient macros were found.")
 
     print("\nTotal Macros:")
-    print(f"Calories: {results['total']['calories']}")
-    print(f"Protein:  {results['total']['protein']} g")
-    print(f"Carbs:    {results['total']['carbs']} g")
-    print(f"Fat:      {results['total']['fat']} g")
+    print(f"Calories: {results['total']['calories']:.2f}")
+    print(f"Protein:  {results['total']['protein']:.2f} g")
+    print(f"Carbs:    {results['total']['carbs']:.2f} g")
+    print(f"Fat:      {results['total']['fat']:.2f} g")
 
     if results["errors"]:
         print("\nCould not get macros for:")
